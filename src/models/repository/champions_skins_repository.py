@@ -15,6 +15,12 @@ class ChampionsSkinsRepository(ChampionsSkinsRepositoryInterface):
         collection = self.__db_connection.get_collection(self.__collection_name)
         collection.update_one({},{ "$set": {"last_updated": datetime.now()} }, upsert=True)
 
+    def get_last_updated(self) -> datetime:
+        collection = self.__db_connection.get_collection(self.__collection_name)
+        data = collection.find_one({}, {"_id": 0, "last_updated": 1})
+
+        return data["last_updated"]
+
     def update_champion_skins(self, champion_name: str, skins: list) -> None:
         collection = self.__db_connection.get_collection(self.__collection_name)
         self.__insert_last_updated()

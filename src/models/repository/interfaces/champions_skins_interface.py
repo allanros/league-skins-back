@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 class ChampionsSkinsRepositoryInterface(ABC):
     @abstractmethod
@@ -7,6 +8,10 @@ class ChampionsSkinsRepositoryInterface(ABC):
 
     @abstractmethod
     def update_champion_skins(self, champion_name: str, skins: list) -> None:
+        pass
+
+    @abstractmethod
+    def get_last_updated(self) -> datetime:
         pass
 
     @abstractmethod
