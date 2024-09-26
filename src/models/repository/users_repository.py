@@ -22,4 +22,4 @@ class UsersRepository(UsersRepositoryInterface):
 
     def add_user_skins(self, user_id: str, skins: list) -> None:
         collection = self.__db_connection.get_collection(self.__collection_name)
-        collection.update_one({ "_id": ObjectId(user_id) }, { "$push": { "skins": skins } })
+        collection.update_one({ "_id": ObjectId(user_id) }, { "$set": { "skins": skins } })

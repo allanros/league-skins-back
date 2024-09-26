@@ -8,10 +8,9 @@ class ChampionsSkinsRepository(ChampionsSkinsRepositoryInterface):
 
     def insert_champion(self, champion_data: dict) -> None:
         collection = self.__db_connection.get_collection(self.__collection_name)
-        self.__insert_last_updated()
         collection.insert_one(champion_data)
 
-    def __insert_last_updated(self) -> None:
+    def insert_last_updated(self) -> None:
         collection = self.__db_connection.get_collection(self.__collection_name)
         collection.update_one({},{ "$set": {"last_updated": datetime.now()} }, upsert=True)
 
@@ -23,8 +22,11 @@ class ChampionsSkinsRepository(ChampionsSkinsRepositoryInterface):
 
     def update_champion_skins(self, champion_name: str, skins: list) -> None:
         collection = self.__db_connection.get_collection(self.__collection_name)
-        self.__insert_last_updated()
         collection.update_one({ "champion": champion_name }, { "$set": { "skins": skins } })
+
+    def insert_api_version(self, version: str) -> None:
+        collection = self.__db_connection.get_collection(self.__collection_name)
+        collection.update_one({}, {"$set": {"api_version": version}}, upsert=True)
 
     def find_champions(self) -> list:
         collection = self.__db_connection.get_collection(self.__collection_name)

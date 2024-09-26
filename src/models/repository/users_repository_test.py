@@ -68,4 +68,7 @@ def test_add_user_skins():
 
     repo.add_user_skins(user_id, skins)
 
-    assert collection.update_att["args"] == ({ "_id": ObjectId(user_id) }, { "$push": { "skins": skins } })
+    assert collection.update_att["args"] == (
+        { "_id": ObjectId(user_id) },
+        { "$set": { "skins": skins } }
+    )

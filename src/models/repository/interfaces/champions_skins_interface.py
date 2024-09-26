@@ -11,6 +11,14 @@ class ChampionsSkinsRepositoryInterface(ABC):
         pass
 
     @abstractmethod
+    def insert_last_updated(self) -> None:
+        pass
+
+    @abstractmethod
+    def insert_api_version(self, version: str) -> None:
+        pass
+
+    @abstractmethod
     def get_last_updated(self) -> datetime:
         pass
 
