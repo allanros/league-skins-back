@@ -15,7 +15,7 @@ class UserAddSkin:
 
             self.__add_skin(user_id, skin_data)
 
-            return self.__format_response()
+            return self.__format_response(skins=skin_data)
         except Exception as e:
             return HttpResponse(
                 status_code=500,
@@ -33,12 +33,12 @@ class UserAddSkin:
     def __validate_data(self, skin_data: list) -> None:
         user_add_skin_validator(skin_data)
 
-    def __format_response(self) -> HttpResponse:
+    def __format_response(self, skins: list) -> HttpResponse:
         return HttpResponse(
             body={
                 "type": "user_skins",
-                "count": 1,
-                "success": True
+                "success": True,
+                "attributes": skins
             },
             status_code=200
         )

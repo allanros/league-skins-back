@@ -5,6 +5,9 @@ def user_updater_validator(body: any):
         "user": {
             "type": "dict",
             "schema" : {
+                "username": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },

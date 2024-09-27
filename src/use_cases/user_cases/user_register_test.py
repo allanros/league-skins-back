@@ -24,7 +24,7 @@ def test_user_register():
             "user": {
                 "username": "test",
                 "email" : "test@teste.com",
-                "password": "123456"
+                "hashed_password": "123456"
             }
         }
     )
@@ -43,7 +43,7 @@ def test_user_register_error():
             "user": {
                 "username": "test",
                 "email" : "test@teste.com",
-                "password": "123456"
+                "hashed_password": "123456"
             }
         }
     )

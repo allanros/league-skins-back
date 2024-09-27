@@ -35,9 +35,9 @@ class UserRegister:
     def __format_new_user(self, body: dict) -> dict:
         new_user = body["user"]
         new_user = { **new_user, "created_at": datetime.now() }
-        password = new_user["password"]
+        password = new_user["hashed_password"]
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        new_user["password"] = hashed_password.decode('utf-8')
+        new_user["hashed_password"] = hashed_password.decode('utf-8')
         return new_user
 
     def __format_response(self, username: str) -> HttpResponse:

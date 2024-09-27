@@ -10,4 +10,4 @@ def user_add_skin_validator(body: dict) -> None:
 
     response = body_validator.validate(body)
     if not response:
-        raise Exception("Invalid body")
+        raise Exception(body_validator.errors)
