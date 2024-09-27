@@ -2,6 +2,7 @@ from src.main.http_types.http_request import HttpRequest
 from src.main.http_types.http_response import HttpResponse
 from src.models.repository.interfaces.champions_skins_interface \
     import ChampionsSkinsRepositoryInterface
+from src.validators.champion_register_validator import champion_register_validator
 
 class ChampionRegister:
     def __init__(self, champion_repository: ChampionsSkinsRepositoryInterface) -> None:
@@ -25,7 +26,7 @@ class ChampionRegister:
             )
 
     def __validate_data(self, champion_data: dict) -> None:
-        pass
+        champion_register_validator(champion_data)
 
     def __register_champion(self, champion_data: dict, version: str) -> None:
         self.__champion_repo.insert_champion(champion_data)

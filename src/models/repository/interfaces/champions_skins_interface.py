@@ -19,6 +19,10 @@ class ChampionsSkinsRepositoryInterface(ABC):
         pass
 
     @abstractmethod
+    def get_api_version(self) -> str:
+        pass
+
+    @abstractmethod
     def get_last_updated(self) -> datetime:
         pass
 

@@ -1,6 +1,7 @@
 from src.main.http_types.http_response import HttpResponse
 from src.main.http_types.http_request import HttpRequest
 from src.models.repository.interfaces.users_repository_interface import UsersRepositoryInterface
+from src.validators.user_add_skin_validator import user_add_skin_validator
 
 class UserAddSkin:
     def __init__(self, user_repository: UsersRepositoryInterface) -> None:
@@ -29,8 +30,8 @@ class UserAddSkin:
             raise Exception("User not found")
         self.__user_repo.add_user_skins(user_id, skins)
 
-    def __validate_data(self, skin_data: dict) -> None:
-        pass
+    def __validate_data(self, skin_data: list) -> None:
+        user_add_skin_validator(skin_data)
 
     def __format_response(self) -> HttpResponse:
         return HttpResponse(

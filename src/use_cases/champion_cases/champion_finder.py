@@ -10,7 +10,6 @@ class ChampionFinder:
     def find(self, http_request: HttpRequest) -> HttpResponse:
         try:
             champion_name = http_request.body["champion"]
-            self.__validate_data(champion_name)
 
             champion_data = self.__find_champion(champion_name)
 
@@ -35,8 +34,8 @@ class ChampionFinder:
                 }
             )
 
-    def __validate_data(self, champion_name: str) -> None:
-        pass # need to implement
+    def __get_api_version(self) -> str:
+        return self.__champion_repo.get_api_version()
 
     def __find_champion(self, champion_name: str) -> dict:
         champion_data = self.__champion_repo.find_champion_skin(champion_name)
@@ -45,11 +44,13 @@ class ChampionFinder:
         return champion_data
 
     def __format_response(self, champion_data: dict) -> HttpResponse:
+        api_version_on_db = self.__get_api_version()
         return HttpResponse(
             body={
                 "type": "champion",
                 "count": 1,
                 "success": True,
+                "api_version": api_version_on_db,
                 "attributes": champion_data
             },
             status_code=200

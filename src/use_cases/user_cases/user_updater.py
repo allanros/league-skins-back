@@ -1,6 +1,7 @@
 from src.main.http_types.http_response import HttpResponse
 from src.main.http_types.http_request import HttpRequest
 from src.models.repository.interfaces.users_repository_interface import UsersRepositoryInterface
+from src.validators.user_updater_validator import user_updater_validator
 
 class UserUpdater:
     def __init__(self, user_repository: UsersRepositoryInterface) -> None:
@@ -30,7 +31,7 @@ class UserUpdater:
         self.__user_repo.update_user(user_id, user_data)
 
     def __validate_data(self, user_data: dict) -> dict:
-        pass
+        user_updater_validator(user_data)
 
     def __format_response(self) -> HttpResponse:
         return HttpResponse(

@@ -1,7 +1,9 @@
 from datetime import datetime
+import bcrypt
 from src.main.http_types.http_request import HttpRequest
 from src.main.http_types.http_response import HttpResponse
 from src.models.repository.interfaces.users_repository_interface import UsersRepositoryInterface
+from src.validators.user_register_validator import user_register_validator
 
 class UserRegister:
     def __init__(self, user_repository: UsersRepositoryInterface) -> None:
@@ -10,6 +12,7 @@ class UserRegister:
     def register(self, http_request: HttpRequest) -> HttpResponse:
         try:
             body = http_request.body
+            self.__validate_body(body)
 
             new_user = self.__format_new_user(body)
             self.__insert_user(new_user)
@@ -23,12 +26,18 @@ class UserRegister:
                 }
             )
 
+    def __validate_body(self, body: dict) -> None:
+        user_register_validator(body)
+
     def __insert_user(self, body: dict) -> None:
         self.__user_repository.insert_user(body)
 
     def __format_new_user(self, body: dict) -> dict:
         new_user = body["user"]
         new_user = { **new_user, "created_at": datetime.now() }
+        password = new_user["password"]
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        new_user["password"] = hashed_password.decode('utf-8')
         return new_user
 
     def __format_response(self, username: str) -> HttpResponse:

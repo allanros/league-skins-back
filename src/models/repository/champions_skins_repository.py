@@ -28,6 +28,12 @@ class ChampionsSkinsRepository(ChampionsSkinsRepositoryInterface):
         collection = self.__db_connection.get_collection(self.__collection_name)
         collection.update_one({}, {"$set": {"api_version": version}}, upsert=True)
 
+    def get_api_version(self) -> str:
+        collection = self.__db_connection.get_collection(self.__collection_name)
+        data = collection.find_one({}, {"_id": 0, "api_version": 1})
+
+        return data["api_version"]
+
     def find_champions(self) -> list:
         collection = self.__db_connection.get_collection(self.__collection_name)
         data = collection.find({}, {"_id": 0, "champion": 1, "skins": 1})

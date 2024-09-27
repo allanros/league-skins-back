@@ -3,6 +3,8 @@ from src.main.http_types.http_response import HttpResponse
 from src.models.repository.interfaces.champions_skins_interface \
     import ChampionsSkinsRepositoryInterface
 
+from src.validators.champion_updater_validator import champion_updater_validator
+
 class ChampionFinder:
     def __init__(self, champion_repository: ChampionsSkinsRepositoryInterface) -> None:
         self.__champion_repo = champion_repository
@@ -25,7 +27,7 @@ class ChampionFinder:
             )
 
     def __validate_data(self, champion_skins: list) -> None:
-        pass # need to implement
+        champion_updater_validator(champion_skins)
 
     def __update_champion(self, champion_name: str, champion_skins: list) -> None:
         self.__champion_repo.update_champion_skin(champion_name, champion_skins)
