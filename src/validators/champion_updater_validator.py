@@ -2,6 +2,10 @@ from cerberus import Validator
 
 def champion_updater_validator(body: dict) -> None:
     validator_body = Validator({
+        "champion": {
+            "type": "string",
+            "required": True
+        },
         "skins": {
             "type": "list",
             "required": True,
@@ -20,9 +24,13 @@ def champion_updater_validator(body: dict) -> None:
                     }
                 }
             }
+        },
+        "version": {
+            "type": "string",
+            "required": True
         }
     })
 
     response = validator_body.validate(body)
     if not response:
-        raise Exception("Invalid body")
+        raise Exception(validator_body.errors)

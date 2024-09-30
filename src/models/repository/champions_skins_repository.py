@@ -20,9 +20,10 @@ class ChampionsSkinsRepository(ChampionsSkinsRepositoryInterface):
 
         return data["last_updated"]
 
-    def update_champion_skins(self, champion_name: str, skins: list) -> None:
+    def update_champion_skins(self, champion_name: str, skins: list, version: str) -> None:
         collection = self.__db_connection.get_collection(self.__collection_name)
         collection.update_one({ "champion": champion_name }, { "$set": { "skins": skins } })
+        self.insert_api_version(version)
 
     def insert_api_version(self, version: str) -> None:
         collection = self.__db_connection.get_collection(self.__collection_name)

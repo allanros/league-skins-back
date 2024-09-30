@@ -33,9 +33,13 @@ def champion_register_validator(body: dict) -> None:
                     }
                 }
             }
+        },
+        "version": {
+            "type": "string",
+            "required": True
         }
     })
 
     response = validator_body.validate(body)
     if not response:
-        raise Exception("Invalid body")
+        raise Exception(validator_body.errors)

@@ -10,9 +10,9 @@ class ChampionRegister:
 
     def register(self, http_request: HttpRequest) -> HttpResponse:
         try:
+            self.__validate_data(http_request.body)
             champion_data = http_request.body["data"]
             version = http_request.body["version"]
-            self.__validate_data(champion_data)
 
             self.__register_champion(champion_data, version)
 

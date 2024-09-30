@@ -11,11 +11,12 @@ class ChampionFinder:
 
     def update(self, http_request: HttpRequest) -> HttpResponse:
         try:
+            self.__validate_data(http_request.body)
             champion_name = http_request.body["champion"]
             champion_skins = http_request.body["skins"]
-            self.__validate_data(champion_skins)
+            version = http_request.body["version"]
 
-            self.__update_champion(champion_name, champion_skins)
+            self.__update_champion(champion_name, champion_skins, version)
 
             return self.__format_response()
         except Exception as e:
@@ -29,8 +30,8 @@ class ChampionFinder:
     def __validate_data(self, champion_skins: list) -> None:
         champion_updater_validator(champion_skins)
 
-    def __update_champion(self, champion_name: str, champion_skins: list) -> None:
-        self.__champion_repo.update_champion_skin(champion_name, champion_skins)
+    def __update_champion(self, champion_name: str, champion_skins: list, version: str) -> None:
+        self.__champion_repo.update_champion_skins(champion_name, champion_skins, version)
 
     def __format_response(self) -> HttpResponse:
         return HttpResponse(
