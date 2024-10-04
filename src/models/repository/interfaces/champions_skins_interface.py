@@ -7,7 +7,7 @@ class ChampionsSkinsRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    def update_champion_skins(self, champion_name: str, skins: list, version: str) -> None:
+    def update_champion_skins(self, champion_name: str, skins: list) -> None:
         pass
 
     @abstractmethod

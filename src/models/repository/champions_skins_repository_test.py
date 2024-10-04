@@ -76,6 +76,7 @@ def test_update_champion_skins():
     ]
 
     repo.update_champion_skins(champion_name, skins)
+    print(collection.update_att)
 
     assert collection.update_att["args"][0] == { "champion": champion_name }
     assert collection.update_att["args"][1] == { "$set": { "skins": skins } }

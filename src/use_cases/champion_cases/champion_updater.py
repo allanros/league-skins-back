@@ -31,7 +31,8 @@ class ChampionFinder:
         champion_updater_validator(champion_skins)
 
     def __update_champion(self, champion_name: str, champion_skins: list, version: str) -> None:
-        self.__champion_repo.update_champion_skins(champion_name, champion_skins, version)
+        self.__champion_repo.insert_api_version(version)
+        self.__champion_repo.update_champion_skins(champion_name, champion_skins)
 
     def __format_response(self) -> HttpResponse:
         return HttpResponse(

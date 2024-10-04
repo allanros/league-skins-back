@@ -12,7 +12,7 @@ class UsersRepository(UsersRepositoryInterface):
 
     def find_user_by_object_id(self, user_id: str) -> dict:
         collection = self.__db_connection.get_collection(self.__collection_name)
-        data = collection.find_one({ "_id": ObjectId(user_id) }, { "_id": 0 })
+        data = collection.find_one({ "_id": ObjectId(user_id) }, { "_id": 0, "hashed_password": 0 })
 
         return data
 

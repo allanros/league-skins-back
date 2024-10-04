@@ -5,9 +5,11 @@ class ChampionFinderMock:
     def __init__(self) -> None:
         self.champion_updater_att = {}
 
-    def update_champion_skins(self, champion_name: str, champion_skins: list, version: str) -> None:
+    def update_champion_skins(self, champion_name: str, champion_skins: list) -> None:
         self.champion_updater_att["champion_name"] = champion_name
         self.champion_updater_att["champion_skins"] = champion_skins
+
+    def insert_api_version(self, version: str) -> None:
         self.champion_updater_att["version"] = version
 
 def test_champion_updater():
@@ -33,3 +35,4 @@ def test_champion_updater():
     assert response.status_code == 200
     assert repo.champion_updater_att["champion_name"] == "Yasuo"
     assert repo.champion_updater_att["champion_skins"] == mock_request.body["skins"]
+    assert repo.champion_updater_att["version"] == mock_request.body["version"]

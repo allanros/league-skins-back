@@ -23,7 +23,6 @@ class UserFinder:
         return user
 
     def __format_response(self, user: dict) -> HttpResponse:
-        user.pop("_id")
         return HttpResponse(
             status_code=200,
             body={
