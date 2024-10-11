@@ -10,6 +10,10 @@ def champion_register_validator(body: dict) -> None:
                     "type": "string",
                     "required": True
                 },
+                "niceName": {
+                    "type": "string",
+                    "required": True
+                },
                 "skins": {
                     "type": "list",
                     "required": True,

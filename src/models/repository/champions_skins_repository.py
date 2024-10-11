@@ -36,7 +36,7 @@ class ChampionsSkinsRepository(ChampionsSkinsRepositoryInterface):
 
     def find_champions(self) -> list:
         collection = self.__db_connection.get_collection(self.__collection_name)
-        data = collection.find({}, {"_id": 0, "champion": 1, "skins": 1})
+        data = collection.find({}, {"_id": 0, "champion": 1, "niceName": 1, "skins": 1})
 
         return data
 

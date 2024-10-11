@@ -2,7 +2,7 @@ from pymongo import MongoClient
 
 class DbConnectionHandler:
     def __init__(self) -> None:
-        self.__connection_string = "mongodb://{}:{}".format("localhost", 27017)
+        self.__connection_string = "mongodb://{}:{}".format("localhost", 3535)
         self.__database_name = "league_skins"
         self.__client = None
         self.__db_connection = None

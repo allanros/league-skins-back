@@ -22,6 +22,7 @@ def test_register():
         body={
             "data": {
                 "champion": "Aatrox",
+                "niceName": "Aatrox",
                 "skins": [
                     {
                         "skin_id": "1",

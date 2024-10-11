@@ -24,8 +24,25 @@ class ChampionFinder:
 
     def find_all(self) -> HttpResponse:
         try:
-            champion_data = self.__champion_repo.find_champions()
+            champion_data = list(self.__champion_repo.find_champions())
             return self.__format_response(champion_data)
+        except Exception as e:
+            return HttpResponse(
+                status_code=500,
+                body={
+                    "message": str(e)
+                }
+            )
+
+    def get_cached_version(self) -> HttpResponse:
+        try:
+            api_version_on_db = self.__get_api_version()
+            return HttpResponse(
+                body={
+                    "api_version": str(api_version_on_db)
+                },
+                status_code=200
+            )
         except Exception as e:
             return HttpResponse(
                 status_code=500,
@@ -48,7 +65,7 @@ class ChampionFinder:
         return HttpResponse(
             body={
                 "type": "champion",
-                "count": 1,
+                "count": len(champion_data),
                 "success": True,
                 "api_version": api_version_on_db,
                 "attributes": champion_data

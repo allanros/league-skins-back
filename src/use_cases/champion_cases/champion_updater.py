@@ -5,7 +5,7 @@ from src.models.repository.interfaces.champions_skins_interface \
 
 from src.validators.champion_updater_validator import champion_updater_validator
 
-class ChampionFinder:
+class ChampionUpdater:
     def __init__(self, champion_repository: ChampionsSkinsRepositoryInterface) -> None:
         self.__champion_repo = champion_repository
 
