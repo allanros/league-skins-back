@@ -31,6 +31,8 @@ class ChampionsSkinsRepository(ChampionsSkinsRepositoryInterface):
     def get_api_version(self) -> str:
         collection = self.__db_connection.get_collection(self.__collection_name)
         data = collection.find_one({}, {"_id": 0, "api_version": 1})
+        if not data:
+            return ""
 
         return data["api_version"]
 
@@ -43,7 +45,7 @@ class ChampionsSkinsRepository(ChampionsSkinsRepositoryInterface):
     def find_champion_skin(self, champion_name: str) -> list:
         collection = self.__db_connection.get_collection(self.__collection_name)
         data = collection.find_one(
-            { "champion": champion_name },
+            { "niceName": champion_name },
             {"_id": 0, "champion": 1, "skins": 1}
         )
 

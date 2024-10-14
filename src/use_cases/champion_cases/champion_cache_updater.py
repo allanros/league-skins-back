@@ -23,30 +23,26 @@ class ChampionCacheUpdater:
                     }
                 )
 
-            champions_on_api = self.__get_riot_champions(last_version_api["last_version"])
-            champions_on_db = self.__get_champions_on_db()
-
-            diff_champions = sorted(set(champions_on_api) - set(champions_on_db))
-
-            if not diff_champions:
-                return HttpResponse(
-                    status_code=200,
-                    body={
-                        "message": "Cache is up to date"
-                    }
-                )
-
             latest_version = last_version_api["last_version"]
 
-            count = 0
+            champions_on_api = sorted(set(self.__get_riot_champions(latest_version)))
 
-            for champion in diff_champions:
+            for champion in champions_on_api:
                 champion_data = get_champion_skins(champion, latest_version)
+
+                if not champion_data:
+                    continue
+
+                champion_skins_count = len(champion_data["data"]["skins"])
+                champion_skins_on_db = self.__get_champion_skins_on_db(
+                    champion_data["data"]["niceName"]
+                )
+
+                if champion_skins_count == champion_skins_on_db:
+                    continue
+
                 self.__validate_data(champion_data)
                 self.__register_champion(champion_data["data"], latest_version)
-                count += 1
-                if count == 10:
-                    break
 
             return self.__format_response()
 
@@ -61,8 +57,6 @@ class ChampionCacheUpdater:
 
     def __get_api_version_on_db(self) -> str:
         api_version = self.__champion_repo.get_api_version()
-        if not api_version:
-            return ""
 
         return api_version
 
@@ -72,18 +66,12 @@ class ChampionCacheUpdater:
     def __get_riot_champions(self, last_version: str) -> list:
         return get_champions_from_riot_api(last_version)
 
-    def __get_champions_on_db(self) -> list:
-        champions = list(self.__champion_repo.find_champions())
-        if not champions[0]:
-            print("No champions found on db")
-            return []
+    def __get_champion_skins_on_db(self, champion_name: str) -> int:
+        champion_data = self.__champion_repo.find_champion_skin(champion_name)
+        if not champion_data:
+            return 0
 
-        names = []
-
-        for champion in champions:
-            names.append(champion["niceName"])
-
-        return names
+        return len(champion_data)
 
     def __register_champion(self, champion_data: dict, version: str) -> None:
         self.__champion_repo.insert_champion(champion_data)
