@@ -59,5 +59,5 @@ def login():
 @user_routes.route("/user/protected", methods=["GET"])
 @jwt_required()
 def protected():
-    current_user_email = get_jwt_identity()
-    return jsonify(logged_in_as=current_user_email), 200
+    current_user_id = get_jwt_identity()
+    return jsonify(logged_in_as=current_user_id), 200
