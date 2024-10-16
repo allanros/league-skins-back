@@ -10,6 +10,10 @@ class UsersRepositoryInterface(ABC):
         pass
 
     @abstractmethod
+    def find_user_by_email(self, email: str) -> dict:
+        pass
+
+    @abstractmethod
     def update_user(self, user_id: str, user_data: dict) -> None:
         pass
 

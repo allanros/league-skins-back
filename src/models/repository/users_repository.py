@@ -16,6 +16,12 @@ class UsersRepository(UsersRepositoryInterface):
 
         return data
 
+    def find_user_by_email(self, email: str) -> dict:
+        collection = self.__db_connection.get_collection(self.__collection_name)
+        data = collection.find_one({ "email": email }, {})
+
+        return data
+
     def update_user(self, user_id: str, user_data: dict) -> None:
         collection = self.__db_connection.get_collection(self.__collection_name)
         collection.update_one({ "_id": ObjectId(user_id) }, { "$set": user_data })
