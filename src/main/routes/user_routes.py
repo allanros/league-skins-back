@@ -1,6 +1,6 @@
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import Blueprint, jsonify, request
 from src.main.http_types.http_request import HttpRequest
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from src.main.composer.user_register_composer import user_register_composer
 from src.main.composer.user_finder_composer import user_finder_composer
@@ -10,7 +10,7 @@ from src.main.composer.user_login_composer import user_login_composer
 
 user_routes = Blueprint("user_routes", __name__)
 
-@user_routes.route("/user", methods=["POST"])
+@user_routes.route("/user/register", methods=["POST"])
 def create_user():
     use_case = user_register_composer()
     http_request = HttpRequest(body=request.json)
@@ -20,6 +20,7 @@ def create_user():
     return jsonify(response.body), response.status_code
 
 @user_routes.route("/user", methods=["GET"])
+@jwt_required()
 def get_user():
     use_case = user_finder_composer()
     http_request = HttpRequest(headers=request.headers)
@@ -56,8 +57,8 @@ def login():
 
     return jsonify(response.body), response.status_code
 
-@user_routes.route("/user/protected", methods=["GET"])
+@user_routes.route("/user/get_id", methods=["GET"])
 @jwt_required()
-def protected():
+def get_id():
     current_user_id = get_jwt_identity()
-    return jsonify(logged_in_as=current_user_id), 200
+    return jsonify(user_id=current_user_id), 200
