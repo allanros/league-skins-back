@@ -34,6 +34,26 @@ class ChampionFinder:
                 }
             )
 
+    def total_skins(self) -> HttpResponse:
+        try:
+            champion_data = self.__champion_repo.find_champions()
+            total_skins = 0
+
+            for champion in champion_data:
+                total_skins += len(champion["skins"]) - 1
+
+            return HttpResponse(
+                body={ "total_skins": total_skins },
+                status_code=200
+            )
+        except Exception as e:
+            return HttpResponse(
+                status_code=500,
+                body={
+                    "message": str(e)
+                }
+            )
+
     def get_cached_version(self) -> HttpResponse:
         try:
             api_version_on_db = self.__get_api_version()

@@ -44,6 +44,7 @@ class ChampionCacheUpdater:
                 self.__validate_data(champion_data)
                 self.__register_champion(champion_data["data"], latest_version)
 
+            self.__champion_repo.insert_api_version(latest_version)
             return self.__format_response()
 
 
@@ -71,7 +72,7 @@ class ChampionCacheUpdater:
         if not champion_data:
             return 0
 
-        return len(champion_data)
+        return len(champion_data.get("skins", []))
 
     def __register_champion(self, champion_data: dict, version: str) -> None:
         self.__champion_repo.insert_champion(champion_data)

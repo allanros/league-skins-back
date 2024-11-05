@@ -26,6 +26,17 @@ class UsersRepository(UsersRepositoryInterface):
         collection = self.__db_connection.get_collection(self.__collection_name)
         collection.update_one({ "_id": ObjectId(user_id) }, { "$set": user_data })
 
-    def add_user_skins(self, user_id: str, skins: list) -> None:
+    def toggle_user_skins(self, user_id: str, skin: str) -> None:
+        user = self.find_user_by_object_id(user_id)
+        skins = user.get("skins", [])
         collection = self.__db_connection.get_collection(self.__collection_name)
-        collection.update_one({ "_id": ObjectId(user_id) }, { "$set": { "skins": skins } })
+        if skin in skins:
+            collection.update_one(
+                { "_id": ObjectId(user_id) },
+                { "$pull": { "skins": skin } }
+            )
+        else:
+            collection.update_one(
+                { "_id": ObjectId(user_id) },
+                { "$push": { "skins": skin } }
+            )

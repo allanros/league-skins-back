@@ -33,6 +33,14 @@ def get_one_champion(champion_name: str):
 
     return jsonify(response.body), response.status_code
 
+@champions_routes.route("/champions/skins", methods=["GET"])
+def get_total_skins():
+    use_case = champion_finder_composer()
+
+    response = use_case.total_skins()
+
+    return jsonify(response.body), response.status_code
+
 @champions_routes.route("/champions/cache", methods=["GET"])
 def champion_update_cache():
     use_case = champion_cache_updater_composer()

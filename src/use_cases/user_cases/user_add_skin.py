@@ -12,10 +12,11 @@ class UserAddSkin:
             user_id = http_request.headers.get("User-ID")
             skin_data = http_request.body
             self.__validate_data(skin_data)
+            skin_data = skin_data.get("skin")
 
             self.__add_skin(user_id, skin_data)
 
-            return self.__format_response(skins=skin_data)
+            return self.__format_response(skin=skin_data)
         except Exception as e:
             return HttpResponse(
                 status_code=500,
@@ -24,21 +25,21 @@ class UserAddSkin:
                 }
             )
 
-    def __add_skin(self, user_id: str, skins: list) -> None:
+    def __add_skin(self, user_id: str, skin: str) -> None:
         user = self.__user_repo.find_user_by_object_id(user_id)
         if user is None:
             raise Exception("User not found")
-        self.__user_repo.add_user_skins(user_id, skins)
+        self.__user_repo.toggle_user_skins(user_id, skin)
 
-    def __validate_data(self, skin_data: list) -> None:
+    def __validate_data(self, skin_data: dict) -> None:
         user_add_skin_validator(skin_data)
 
-    def __format_response(self, skins: list) -> HttpResponse:
+    def __format_response(self, skin: str) -> HttpResponse:
         return HttpResponse(
             body={
                 "type": "user_skins",
                 "success": True,
-                "attributes": skins
+                "attributes": skin
             },
             status_code=200
         )

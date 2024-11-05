@@ -2,8 +2,8 @@ from cerberus import Validator
 
 def user_add_skin_validator(body: dict) -> None:
     body_validator = Validator({
-        "skins": {
-            "type": "list",
+        "skin": {
+            "type": "string",
             "required": True
         }
     })

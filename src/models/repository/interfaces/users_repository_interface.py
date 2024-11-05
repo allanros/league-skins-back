@@ -18,5 +18,5 @@ class UsersRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    def add_user_skins(self, user_id: str, skins: list) -> None:
+    def toggle_user_skins(self, user_id: str, skin: str) -> None:
         pass
